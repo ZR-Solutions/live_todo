@@ -1,0 +1,43 @@
+<form action="#" phx-submit="add" class="mb-4">
+  <%= text_input(:employee, :name, class: "w-full border rounded-md py-2 px-3 mb-2 focus:outline-none focus:border-blue-500", placeholder: "Name of employee") %> <br />
+  <%= text_input(:employee, :location, class: "w-full border rounded-md py-2 px-3 mb-2 focus:outline-none focus:border-blue-500", placeholder: "Location of employee") %>
+  <%= submit("Add", class: "bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:border-green-500", phx_disable_with: "Adding...") %>
+</form>
+
+<table class="w-full mb-4">
+  <thead>
+    <tr class="bg-blue-500 text-white">
+      <th class="py-2 px-4">Employee Name</th>
+      <th class="py-2 px-4">Location</th>
+      <th class="py-2 px-4">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for employee <- @employees do %>
+      <tr class="border-b">
+        <td class="py-2 px-4"><%= employee.name %></td>
+        <td class="py-2 px-4 text-center"><%= employee.location %></td>
+        <td class="py-2 px-4 flex justify-center items-center space-x-2">
+  <button phx-click="toggle_delete" phx-value-id={employee.id} class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded focus:outline-none focus:ring focus:border-red-500">
+    Delete
+  </button>
+  <%= live_redirect to: Routes.edit_todo_path(@socket, LiveViewTodoWeb.EditTodo, employee.id), replace: false do %>
+    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded focus:outline-none focus:ring focus:border-blue-500">
+      Edit
+    </button>
+  <% end %>
+</td>
+
+      </tr><td class="py-2 px-4">
+          <button phx-click="toggle_delete" phx-value-id={employee.id} class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded focus:outline-none focus:ring focus:border-red-500">
+            Delete
+          </button>
+          <%= live_redirect to: Routes.edit_todo_path(@socket, LiveViewTodoWeb.EditTodo, employee.id), replace: false do %>
+            <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded focus:outline-none focus:ring focus:border-blue-500">
+              Edit
+            </button>
+          <% end %>
+        </td>
+    <% end %>
+  </tbody>
+</table>
